@@ -8,7 +8,8 @@ const LoginPage = () => {
 	const handleSubmit = (e) => {
 		e.preventDefault()
 		dispatch(
-			register({
+            register({
+                name:e.target.elements.name.value,
 				email: e.target.elements.email.value,
 				password: e.target.elements.password.value,
 			})
@@ -34,7 +35,14 @@ const LoginPage = () => {
 							className='form-label'
 						>
 							Email address
-						</label>
+                        </label>
+                        <input
+							name='name'
+							type='name'
+							className='form-control'
+							id='exampleInputEmail1'
+							aria-describedby='emailHelp'
+						/>
 						<input
 							name='email'
 							type='email'

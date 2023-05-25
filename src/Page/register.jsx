@@ -7,7 +7,8 @@ const Registration = () => {
   const handleSumbit = e => {
     e.preventDefault();
 
-    const user = {
+      const user = {
+      name: e.currentTarget.name.value,
       email: e.currentTarget.email.value,
       password: e.currentTarget.password.value,
     };
@@ -16,7 +17,9 @@ const Registration = () => {
 
   return (
     <>
-      <form onSubmit={handleSumbit}>
+          <form onSubmit={handleSumbit}>
+        <label htmlFor="">Name</label>
+        <input type="text" name="name" />
         <label htmlFor="">Email</label>
         <input type="email" name="email" />
         <label htmlFor="">Password</label>
