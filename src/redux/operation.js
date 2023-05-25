@@ -1,8 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-axios.defaults.baseURL='https://64659ccd228bd07b354e4d88.mockapi.io/contacts/'
- 
+const authPublicInstance = axios.create({
+  baseURL: 'https://connections-api.herokuapp.com/',
+});
+
+
 export const contactsApi = createAsyncThunk('contacts/allContacts',
   async () => { 
     const res = await axios.get('contacts')
@@ -28,6 +31,28 @@ export const deleteContact = createAsyncThunk(
       return thunkAPI.rejectWithValue(e.message);
     }
   })
-  
- 
-    
+
+
+export const register = createAsyncThunk(
+  'users/signUp',
+  async (body, thunkAPI) => {
+    try {
+      const response = await authPublicInstance.post('users/signup', body);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
+
+export const signIn = createAsyncThunk(
+  'users/signIn',
+  async (body, thunkAPI) => {
+    try {
+      const response = await authPublicInstance.post('users/login', body);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);

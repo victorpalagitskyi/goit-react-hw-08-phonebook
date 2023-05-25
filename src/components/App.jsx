@@ -1,16 +1,19 @@
-import ContactForm from "./ContactForm";
-import ContactList from "./ContactList";
-import Filter from "./Filter";
+import { Contacts } from "Page/contacts";
+import { Home } from "Page/home";
+import LoginPage from "Page/login";
+import Registration from "Page/register";
+import { Route, Routes } from "react-router-dom";
 
 const  App = () => {
  
   return (
     <>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter />
-      <ContactList />
+      <Routes> 
+        <Route path="/" element={<Home/> }></Route>
+        <Route path="/login" element={<LoginPage/> }></Route>
+         <Route path="/registration" element={<Registration></Registration> }></Route>
+        <Route path="/contacts" element={<Contacts/> }> </Route>
+     </Routes> 
     </>
   );
 }
