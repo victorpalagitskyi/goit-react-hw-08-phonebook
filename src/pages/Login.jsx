@@ -1,8 +1,9 @@
+import { Box, Center } from '@chakra-ui/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from 'redux/operations';
-
+import css from './style.module.css'
 
 const initialValue = {
   email: '',
@@ -30,13 +31,15 @@ export const Login = () => {
 
   return (
     <>
+      <Center as="section" bg="gray.100" h="100vh">
+         <Box maxW="420px" bg="white" p="6">
       <h1>Hello</h1>
       <Formik
         initialValues={initialValue}
         onSubmit={handleSubmit}
       >
         <Form autoComplete="off">
-          <label>
+          <label className={css.label}>
             <p>Email</p>
             <Field className={'input'} type="email" name="email" />
             <ErrorMessage
@@ -44,8 +47,7 @@ export const Login = () => {
               name="email"
             />
           </label>
-
-          <label>
+          <label className={css.label}>
             <p>Password</p>
             <Field type="password" name="password" />
             <ErrorMessage
@@ -53,7 +55,6 @@ export const Login = () => {
               name="password"
             />
           </label>
-
           <button type="submit">Login</button>
           <button
             type="button"
@@ -64,7 +65,10 @@ export const Login = () => {
             SignUp
           </button>
         </Form>
-      </Formik>
+          </Formik>
+          </Box>
+      </Center>
     </>
+      
   );
 };

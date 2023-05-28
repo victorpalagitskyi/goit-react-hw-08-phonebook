@@ -1,3 +1,4 @@
+import  css  from '../pages/style.module.css'
 import Notiflix from 'notiflix';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,15 +17,15 @@ export default function ContactList() {
 
   const filteredContacts = () =>
     contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterValue)
+      contact.name.toLowerCase().includes(filterValue.toLowerCase())
     );
 
   return (
-    <>
+    <div className={css.style}>
       {contacts.length === 0 ? (
-        <div>You not have contcts</div>
+        <div>You not have contacts</div>
       ) : (
-        <ul>
+          <ul className={css.element}>
           {filteredContacts().map(({ name, number, id }) => (
             <li key={id}>
               <span > {name}:</span>
@@ -43,6 +44,6 @@ export default function ContactList() {
           ))}
         </ul>
       )}
-    </>
+    </div>
   );
 }

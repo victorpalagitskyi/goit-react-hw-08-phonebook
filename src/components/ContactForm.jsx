@@ -3,6 +3,8 @@ import Notiflix from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
 import { addContact } from 'redux/operations';
+import  css  from '../pages/style.module.css'
+
 
 const initialValues = {
   name: '',
