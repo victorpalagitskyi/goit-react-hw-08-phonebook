@@ -1,52 +1,48 @@
-import Notiflix from "notiflix";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {  contactsApi, deleteContact } from "redux/operation";
-import { selectContacts, selectFilter, selectLoadingStatus } from "redux/selectors";
+import Notiflix from 'notiflix';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact, fetchContacts } from 'redux/operations';
+import { getContacts, selectFilterField } from 'redux/selectors';
 
-
-
-
-const ContactList = () => {
-
-  const contacts = useSelector(selectContacts)
-  const filters = useSelector(selectFilter)
-  const isLoading = useSelector(selectLoadingStatus)
+export default function ContactList() {
   const dispatch = useDispatch();
-  
-   useEffect(() => {
-    dispatch(contactsApi());
-  }, [dispatch]);
-  
-  const onDeleteContact = e => {
-    dispatch(deleteContact(e.target.id));
-    Notiflix.Notify.success(`Сontact deleted successfully`);
-  };
+  const contacts = useSelector(getContacts);
 
-  const visibleContacts = () =>
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
+
+  const filterValue = useSelector(selectFilterField);
+
+  const filteredContacts = () =>
     contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filters.toLowerCase())
+      contact.name.toLowerCase().includes(filterValue)
     );
-  
-  
-  
-   return (
+
+  return (
     <>
-    
-      {isLoading ? <div>Loading...</div> : ''}
-      <ul>
-        {!isLoading && visibleContacts().map(({ name, id, number }) => (
-          <li key={id}>
-            <p>{name}</p>
-            <p>{number}</p>
-            <button type="button" id={id} onClick={onDeleteContact}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+      {contacts.length === 0 ? (
+        <div>You not have contcts</div>
+      ) : (
+        <ul>
+          {filteredContacts().map(({ name, number, id }) => (
+            <li key={id}>
+              <span > {name}:</span>
+              <span >{number}</span>
+              <button
+                type="button"
+                id={id}
+                onClick={() => {
+                  Notiflix.Notify.success(`You delete contact`);
+                  dispatch(deleteContact(id));
+                }}
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
     </>
   );
 }
-
-export default ContactList

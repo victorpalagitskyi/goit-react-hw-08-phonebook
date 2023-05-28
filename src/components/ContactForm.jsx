@@ -1,28 +1,27 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
-import Notiflix from "notiflix";
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import Notiflix from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact} from "redux/operation";
-import { selectContacts } from "redux/selectors";
+import { getContacts } from 'redux/selectors';
+import { addContact } from 'redux/operations';
 
 const initialValues = {
   name: '',
   number: '',
 };
 
-const ContactForm = () => { 
-  
-    const contacts = useSelector(selectContacts);
-    const dispatch = useDispatch();
 
+export function ContactForm() {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
 
   const handleSubmit = ({ name, number }, action) => {
-    
     if (contacts.find(contact => contact.name === name) !== undefined) {
       Notiflix.Notify.failure(`${name} already in your contact book`);
       return;
-    } else
-          
-      dispatch(addContact({name, number}));
+    }
+
+    dispatch(addContact({ name, number }));
+
     Notiflix.Notify.success(`You added ${name} to phonebook`);
     action.resetForm();
   };
@@ -31,27 +30,22 @@ const ContactForm = () => {
     <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
-    
     >
       <Form autoComplete="off">
         <label>
           <p>Name</p>
-          <Field type="text" name="name" />
+          <Field className={'input'} type="text" name="name" />
           <ErrorMessage component="p"  name="name" />
         </label>
 
         <label>
-          <p>Number</p>
+          <p>Phone</p>
           <Field type="tel" name="number" />
-          <ErrorMessage
-            component="p"
-            name="number"
-          />
+          <ErrorMessage component="p"  name="number" />
         </label>
-        <br></br>
-        <button type="submit">Add contact</button>
+
+        <button type="submit">addContact</button>
       </Form>
     </Formik>
   );
 }
-export default ContactForm
