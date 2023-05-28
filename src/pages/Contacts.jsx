@@ -6,6 +6,7 @@ import { Filter } from 'components/Filter';
 export const Contacts = () => {
   return (
     <div>
+      
       <h1>Phonebook</h1>
       <ContactForm />
       <h2>Contacts</h2>

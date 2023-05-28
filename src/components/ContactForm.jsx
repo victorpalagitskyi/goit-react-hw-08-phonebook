@@ -2,8 +2,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import Notiflix from 'notiflix';
 import { useDispatch, useSelector } from 'react-redux';
 import { getContacts } from 'redux/selectors';
-import { addContact } from 'redux/operations';
-import  css  from '../pages/style.module.css'
+import { addContact, logOut } from 'redux/operations';
+// import  css  from '../pages/style.module.css'
 
 
 const initialValues = {
@@ -15,9 +15,12 @@ const initialValues = {
 export function ContactForm() {
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
+   const handleLogout = () => {
+    dispatch(logOut());
+  };
 
   const handleSubmit = ({ name, number }, action) => {
-    if (contacts.find(contact => contact.name === name) !== undefined) {
+    if (contacts.find(contact => contact.name.toLowerCase() === name.toLowerCase()) !== undefined) {
       Notiflix.Notify.failure(`${name} already in your contact book`);
       return;
     }
@@ -29,7 +32,8 @@ export function ContactForm() {
   };
 
   return (
-    <Formik
+    <>
+      <Formik
       initialValues={initialValues}
       onSubmit={handleSubmit}
     >
@@ -46,8 +50,16 @@ export function ContactForm() {
           <ErrorMessage component="p"  name="number" />
         </label>
 
-        <button type="submit">addContact</button>
+          <button type="submit">addContact</button>
+          <button
+              onClick={handleLogout}
+            >
+              LogOut
+    </button>
       </Form>
     </Formik>
-  );
+
+    </>
+    
+      );
 }
